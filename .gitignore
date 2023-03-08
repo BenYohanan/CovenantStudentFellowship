@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Core/bin/Debug/net6.0
+/Core/obj
+/CovenantStudentsFellowship/.vs
+/CovenantStudentsFellowship/obj
+/CovenantStudentsFellowship/bin/Debug/net6.0
+/Logic/bin/Debug/net6.0
+/Logic/obj

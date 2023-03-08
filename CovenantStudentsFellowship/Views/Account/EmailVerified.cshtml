@@ -1,0 +1,22 @@
+﻿@{ 
+    ViewData["Title"] = "You're Confirmed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Main Wrapper -->
+<div class="main-wrapper" style="padding-top:100px;">
+    <div class="row pt-5">
+        <div class="card col-md-6 rounded m-auto">
+            <div class="error-box">
+                <h3>Your account has been activated!</h3>
+                <p>Thank you for activating your account, You can now log in to continue.</p>
+                <div class="form-group text-center">
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Main Wrapper -->

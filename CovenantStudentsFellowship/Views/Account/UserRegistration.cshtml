@@ -1,0 +1,95 @@
+﻿@model Core.ViewModels.ApplicationUserViewModel
+@{
+    ViewData["Title"] = "User Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="main-wrapper">
+    <div class="page-wrapper" style="padding-top:100px;">
+        <div class="content container-fluid">
+            <div class="row">
+                <div class="col-sm-8 col-md-8 col-lg-8 col-xl-9">
+                    <div class="col-lg-10 col-md-10 col-xl-10 col-12 col-sm-12 offset-xl-1 card py-4 pt-4 shadow-lg tab-pane fade active show" id="personal">
+                        <div class="card-header font-weight-bold bg-white text-center">
+                            <h4>Register</h4>
+                        </div>
+                        <div class="col-10 offset-1 p-3">
+                            <div class="row">
+                                <div class="col-md-6 form-group icon_form comments_form register_contact ">
+                                    <label>FirstName<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="firstname" require placeholder="First Name" required>
+                                </div>
+
+                                <div class="col-md-6 form-group icon_form comments_form register_contact">
+                                    <label>Middle Name</label>
+                                    <input type="text" class="form-control" id="middleName" placeholder="Middle Name">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group icon_form comments_form register_contact">
+                                    <label>Last Name<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" required id="lastName" placeholder="Last Name">
+                                </div>
+
+                                <div class="col-md-6 form-group icon_form comments_form register_contact">
+                                    <label>Email<span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" required id="email" placeholder="csf@gmail.com">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group icon_form comments_form register_contact">
+                                    <label>Date of Birth<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" required id="dateOfBirth" placeholder="Date of Birth">
+                                </div>
+
+                                <div class="col-md-6 form-group icon_form comments_form register_contact payment_select_wrapper">
+                                    <label>Gender<span class="text-danger">*</span></label>
+                                    <select id="genderId" class="form-control" asp-items="@(new SelectList(@ViewBag.Gender,  "Id" ,"Name"))" required></select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 form-group icon_form comments_form register_contact">
+                                    <label>Password<span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="password" placeholder="*******" required>
+                                </div>
+
+                                <div class="col-md-6 form-group icon_form comments_form register_contact">
+                                    <label>Confirm Password<span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" id="confirmpassword" placeholder="*******" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6  form-group icon_form comments_form register_contact">
+                                    <label>Phone Number<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" id="phoneNumber" required placeholder="0816****58">
+                                </div>
+
+                                <div class="col-md-6  form-group icon_form comments_form register_contact payment_select_wrapper">
+                                    <label>School<span class="text-danger">*</span></label>
+                                    <select id="schoolId" class="form-control" asp-items="@(new SelectList(@ViewBag.School,  "Id" ,"SchoolCodeName"))" required></select>
+                                </div>
+                               
+                            </div>
+
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-auto">
+                                    <nav class="nav btn-group pt-2">
+                                        <a id="firstButtton" class="btn btn-primary disabled submit-btn" onclick="userRegistration()">Submit</a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</div>
+
+
+

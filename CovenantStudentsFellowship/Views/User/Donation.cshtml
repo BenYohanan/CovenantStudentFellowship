@@ -1,0 +1,117 @@
+﻿@model Core.ViewModels.DonationViewModel
+
+@{
+    ViewData["Title"] = "Donation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container pt-5" style="margin-top:40px;">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="page-title">Help Us Grow</h3>
+                       
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+
+        <div class="col-xs-12 col-md-4">
+            <img src="~/Images/Tzedekah2.jpg" style="max-height:412px; max-width:100%;"/>
+        </div>
+
+        <div class="col-xs-12 col-md-8">
+            <div class="card" style="background-color:aliceblue;">
+
+                <h4 class="card-title pt-4" style="text-align:center; margin-bottom:5px !important;">Donate To CSF</h4>
+
+                <div class="card-body">
+
+                    <div class="col-md-12 mb-3">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter Full name" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Category</label>
+                            <select id="categoryId" class="form-control" asp-items="@(new SelectList(@ViewBag.DonationCategory,  "Id" ,"Name"))" placeholder="Select Donation Category" required></select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Country</label>
+                            <select id="countryId" class="form-control" asp-items="@(new SelectList(@ViewBag.County,  "Id" ,"Name"))" required></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>State</label>
+                            <select id="stateId" class="form-control" required></select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Currency</label>
+                            <select id="currencyId" class="form-control" asp-items="@(new SelectList(@ViewBag.DonationCurrency,  "Id" ,"Name"))" placeholder="Select preferred Currency" required></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Email</label>
+                            <input type="text" class="form-control" id="email" placeholder="Enter a valid email address" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Amount</label>
+                            <input type="text" class="form-control" id="amount" placeholder="Amount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="checked">
+                        <label class="form-check-label">
+                            Donate as Anonymous
+                        </label>
+                    </div>
+                    <div class="submit-section" style="margin-top:10px !important;">
+                        <button class="btn btn-primary" type="submit" onclick="makeDonation()">Make Donation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     $(document).ready(function ()
+     {
+         $("#countryId").change(function ()
+         {
+           $("#stateId").empty();
+             debugger;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetStatesOfCountry", "Account")', //we are calling json method
+                dataType: 'json',
+                data:
+                {
+                    CountryId: $("#countryId").val()
+                },
+                success: function (getStates)
+                {
+                    debugger;
+                    $("#stateId").append('<option value="' +0 + '">--Select State --</option>');
+                    $.each(getStates, function (i, getState)
+                    {
+                        $("#stateId").append('<option value="' + getState.value + '">' + getState.text + '</option>');
+                    });
+                    $("#stateId").show();
+                },
+                error: function (ex)
+                {
+                errorAlert('Failed to retrieve States' + ex)
+                }
+            });
+           return false;
+       });
+     });
+</script>

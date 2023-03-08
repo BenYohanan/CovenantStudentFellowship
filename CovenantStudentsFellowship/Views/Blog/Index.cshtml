@@ -1,0 +1,127 @@
+﻿@model Core.ViewModels.GeneralBlogViewModel
+
+@{
+    ViewData["Title"] = "Blog Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrapper">
+
+    <section id="blog" class="blog">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row">
+                
+                <div class="col-lg-8 entries">
+                    @if (Model.BlogViewModels != null && Model.BlogViewModels.Count() > 0)
+                    {
+                        @foreach (var blog in Model.BlogViewModels)
+                        {
+                            <article class="entry">
+                                <h2 class="entry-title">
+                                    <a asp-controller="Blog" asp-route-Id="@blog.Id" asp-action="SingleBlog">@blog.Title</a>
+                                </h2>
+                                <div class="entry-meta">
+                                    <ul>
+                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i><a href="#">@blog.BlogAutorName</a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-house"></i><a href="#">@blog.BlogCategoryName</a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i><a href="#"><time datetime="2020-01-01">@blog.DateCreated</time></a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i><a href="#">@blog.BlogComments.Count() Comments</a></li>
+                                    </ul>
+                                </div>
+                                <div class="entry-content">
+                                    <p>@Html.Raw(blog.ShortDetails)</p>
+                                    <div class="read-more">
+                                        <a asp-controller="Blog" asp-route-Id="@blog.Id" asp-action="SingleBlog">Read More</a>
+                                    </div>
+                                </div>
+                            </article><!-- End blog entry -->
+                        }
+                        <div class="blog-pagination">
+                            <ul class="justify-content-center">
+                                <li><a href="#">1</a></li>
+                                <li class="active"><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <article class="entry">
+                            <div class="entry-content">
+                                <p>No Blog Uploaded yet</p>
+                            </div>
+                        </article>
+                        <div class="blog-pagination">
+                            <ul class="justify-content-center">
+                                <li><a href="#">1</a></li>
+                                <li class="active"><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                            </ul>
+                        </div>
+                        <!-- End blog entry -->
+                    }
+                    
+                </div><!-- End blog entries list -->
+                
+                <div class="col-lg-4" style="float:right;">
+
+                    <div class="sidebar">
+
+                        <h3 class="sidebar-title">Search</h3>
+                        <div class="sidebar-item search-form">
+                            <form action="">
+                                <input type="text">
+                                <button type="submit"><i class="bi bi-search"></i></button>
+                            </form>
+                        </div><!-- End sidebar search formn-->
+
+                        <h3 class="sidebar-title">Categories</h3>
+                        <div class="sidebar-item categories">
+                            <ul>
+                                @if (Model.BlogCategories != null && Model.BlogCategories.Count() > 0)
+                                {
+                                    foreach (var category in Model.BlogCategories)
+                                    {
+                                        <li><a href="#">@category.Name</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div><!-- End sidebar categories-->
+
+                        <h3 class="sidebar-title">Recent Posts</h3>
+                        <div class="sidebar-item recent-posts">
+                            @foreach (var topBlog in ViewBag.Blog)
+                            {
+                                <div class="post-item clearfix">
+                                    <img src="@topBlog.ImageUrl" />
+                                    <h4><a asp-controller="Blog" asp-action="SingleBlog" asp-route-Id="@topBlog.Id">@topBlog.Title</a></h4>
+                                    <time datetime="2020-01-01">@topBlog.DateCreated/time>
+                                </div>
+                            }
+                        </div>
+
+                        <h3 class="sidebar-title">Tags</h3>
+                        <div class="sidebar-item tags">
+                            <ul>
+                                <li><a href="#">App</a></li>
+                                <li><a href="#">IT</a></li>
+                                <li><a href="#">Business</a></li>
+                                <li><a href="#">Mac</a></li>
+                                <li><a href="#">Design</a></li>
+                                <li><a href="#">Office</a></li>
+                                <li><a href="#">Creative</a></li>
+                                <li><a href="#">Studio</a></li>
+                                <li><a href="#">Smart</a></li>
+                                <li><a href="#">Tips</a></li>
+                                <li><a href="#">Marketing</a></li>
+                            </ul>
+                        </div><!-- End sidebar tags-->
+
+                    </div><!-- End sidebar -->
+                </div>
+            </div>
+        </div>
+    </section><!-- End Blog Section -->
+</div>
+
+

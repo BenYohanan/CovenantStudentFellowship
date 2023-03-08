@@ -1,0 +1,387 @@
+﻿@model Core.ViewModels.ApplicationUserViewModel
+@inject Logic.IHelpers.IBlogHelper _blogHelper
+
+@{
+    ViewData["Title"] = "User Profile";
+    Layout = Session.GetRoleLayout();
+    var myBlog = _blogHelper.GetBlogByUserId(Model.Id);
+}
+
+<!-- Page Wrapper -->
+<div class="page-wrapper" style="min-height:400px;">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">@Model?.FullName - Profile</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- /Page Header -->
+        @if (Model != null)
+        {
+            <div class="card mb-0" style="border: 15px solid #ededed;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="profile-view">
+
+                                <div class="profile-img-wrap">
+                                    <div class="profile-img">
+                                        <img alt="" src="@Model?.ProfilePicture">
+                                    </div>
+                                </div>
+
+                                @Html.HiddenFor(x => x.Id, new { Id = "userId" });
+                                <div class="profile-basic">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <ul class="personal-info profile-info-left">
+                                                <li>
+                                                    <span><b>First name:</b></span>
+                                                    <span class="ml-1">@Model?.FirstName</span>
+                                                </li>
+                                                <li>
+                                                    <span><b>Last Name:</b></span>
+                                                    <span class="ml-1">@Model?.LastName</span>
+                                                </li>
+                                                <li>
+                                                    <span><b>Middle Name:</b></span>
+                                                    <span class="ml-1">@Model?.MiddleName</span>
+                                                </li>
+                                                <li>
+                                                    <span><b>Email:</b></span>
+                                                    <span class="ml-1">@Model?.Email</span>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <span><b>Phone Number:</b></span>
+                                                        <span class="ml-1">@Model?.PhoneNumber</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <span><b>Gender: </b></span>
+                                                    <span class="ml-1">@Model?.Gender</span>
+                                                </li>
+
+                                                <li>
+                                                    <span><b>Country:</b></span>
+                                                    <span class="ml-1">@Model?.Nationality</span>
+                                                </li>
+                                            </ul>
+
+                                            <div class="btn bg-primary submit-btn mt-2">
+                                                <span class="btn-text" data-toggle="modal" data-target="#logo_modal">Edit Profile Picture</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7">
+                                            <ul class="personal-info">
+                                                <li class="row mb-2">
+                                                    <span><b>Religion: </b></span>
+                                                    <span class="ml-1">@Model?.Religion</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>School: </b></span>
+                                                    <span class="ml-1">@Model?.School</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Home Address: </b></span>
+                                                    <div class="ml-1">@Model?.HomeAddress</div>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>State: </b></span>
+                                                    <span class="ml-1">@Model?.State</span>
+                                                </li>
+
+                                                <li class="row mb-2">
+                                                    <span><b>School Address: </b></span>
+                                                    <span class="ml-1">@Model?.SchoolAddress</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Birth Date: </b></span>
+                                                        <span class="ml-1">@Model?.DateOfBirth</span>
+                                                    <div class="title col-3"></div>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Department: </b></span>
+                                                    <span class="ml-1">@Model?.Department</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Home Synagogue: </b></span>
+                                                    <span class="ml-1">@Model?.HomeSynagogue</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="pro-edit edit-icon" data-toggle="modal" data-target="#company_info_modal" onclick="editUserProfile('@Model?.Id')"><i class="fa fa-pencil"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card tab-box">
+                <div class="row user-tabs">
+                    <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+                        <ul class="nav nav-tabs nav-tabs-bottom">
+                            <li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Profile</a></li>
+                            <li class="nav-item"><a href="#emp_projects" data-toggle="tab" class="nav-link">My Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-content">
+                <!-- Profile Info Tab -->
+                <div id="emp_profile" class="pro-overview tab-pane fade show active">
+                    <div class="row">
+                        <div class="col-md-6 d-flex">
+                            <div class="card profile-box flex-fill">
+                                <div class="card-body">
+                                    <h3 class="card-title">Emergency Contact</h3>
+
+                                    <ul class="personal-info">
+                                        <li>
+                                            <div class="title">Name</div>
+                                            <div class="text">@Model?.ContactName</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Relationship</div>
+                                            <div class="text">@Model?.ContactRelationship</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Phone </div>
+                                            <div class="text">@Model?.ContactPhoneNumber</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Profile Info Tab -->
+                <!-- Projects Tab -->
+                <div class="tab-pane fade" id="emp_projects">
+                    @if (myBlog != null && myBlog.Count > 0)
+                    {
+                        <div class="row">
+                            @foreach (var blog in myBlog)
+                            {
+                                <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="project-title">@blog.Title</h4>
+                                            <small class="block text-ellipsis m-b-15 text-center">
+                                                <span class="text-xs">@blog.BlogComments.Count()</span> <span class="text-muted">Comment</span>
+                                            </small>
+                                            <p class="text-muted">
+                                                @Html.Raw(blog.BlogContent)
+                                            </p>
+                                            <div class="pro-deadline m-b-15">
+                                                <div class="sub-title">
+                                                    Date Created:
+                                                </div>
+                                                <div class="text-muted">
+                                                    @blog.DateCreated
+                                                </div>
+                                            </div>
+                                            <div class="project-members m-b-15">
+                                                <div>Author's Name: </div>
+                                                <div class="text-muted">@blog.BlogAutorName</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+                <!-- /Projects Tab -->
+            </div>
+        }
+    </div>
+    <!-- /Page Content -->
+</div>
+<!-- /Page Wrapper -->
+<!--Edit User modal -->
+<div id="company_info_modal" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Personal Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="profile-img-wrap edit-img">
+                    <img class="inline-block" src="@Model?.ProfilePicture" alt="profile">
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="userId" hidden>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Fist Name <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="firstName">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Last Name<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="lastName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Middle Name<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="middleName">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Department<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="department">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Email<span class="text-danger">*</span></label>
+                            <input class="form-control" type="email" id="email">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Gender<span class="text-danger">*</span></label>
+                            <select class="form-control select" asp-items="@(new SelectList(@ViewBag.Gender, "Id", "Name" ))" required id="gender"> </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Phone Number<span class="text-danger">*</span></label>
+                            <input class="form-control " type="text" id="phoneNumber">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>School<span class="text-danger">*</span></label>
+                            <select class="form-control" asp-items="@(new SelectList(@ViewBag.School, "Id", "SchoolCodeName" ))" id="school"> </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>School Address<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="schoolAddress">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Country<span class="text-danger">*</span></label>
+                            <select class="form-control select" asp-items="@(new SelectList(@ViewBag.Country, "Id", "Name" ))" required id="country"> </select>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>State<span class="text-danger">*</span></label>
+                            <select class="form-control" asp-items="@(new SelectList(@ViewBag.State, "Id", "Name" ))" id="StateId"> </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label>Religion<span class="text-danger">*</span></label>
+                            <select class="form-control" asp-items="@(new SelectList(@ViewBag.Religion, "Id", "Name" ))" id="religion"> </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Date Of Birth<span class="text-danger">*</span></label>
+                            <input class="form-control" type="datetime" id="dateOfBirth">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Home Address<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="homeAddress">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Home Synagogue<span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="homeSynagogue">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="submit-section">
+                    <button class="btn btn-primary submit-btn" onclick="submitUserProfile()" type="submit">Update</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--Edit User modal -->
+<!-- Edit Profile Picture Modal -->
+<div id="logo_modal" class="modal custom-modal fade col-12" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-img-wrap edit-img">8
+                    @if (Model?.ProfilePicture != null)
+                    {
+                        <img class="inline-block" src="@Model?.ProfilePicture" alt="User Logo">
+                    }
+                    else
+                    {
+                        <img class="inline-block" src="@Model?.FirstName" alt="">
+                    }
+
+                    <div class="fileupload btn">
+                        <span class="btn-text" style="color:coral;">Upload</span>
+                        <input id="newlogo" asp-controller="User" asp-action="UserProfile" class="upload" type="file">
+                    </div>
+                </div>
+                <div class="submit-section">
+                    <button onclick="SaveProfilePicture()" class="btn btn-primary submit-btn" type="submit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Edit Profile Picture Modal -->

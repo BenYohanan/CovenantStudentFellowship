@@ -1,0 +1,79 @@
+﻿@model Core.ViewModels.BlogViewModel
+
+@{
+    ViewData["Title"] = "Blog Details";
+    Layout = Session.GetRoleLayout();
+}
+
+    <div class="page-wrapper">
+        <!-- ======= Blog Single Section ======= -->
+        <section id="blog" class="blog" style="padding: 20px 0 20px 0 !important;">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+
+                    <div class="col-md-12 entries">
+
+                        <article class="entry entry-single">
+
+                            @if (Model.ImageUrl != null)
+                            {
+                                <div class="entry-img text-center">
+                                    <img src="@Model.ImageUrl" alt="" class="img-fluid pt-2" style="width:800px; height:400px;">
+                                </div>
+                            }
+                            <h2 class="entry-title">
+                                <a href="#">@Model.Title</a>
+                            </h2>
+
+                            <div class="entry-meta">
+                                <ul>
+                                    <li class="d-flex align-items-center"><i class="fa bi-file-person-fill"></i> <a href="#">@Model.BlogAutorName</a></li>
+                                    <li class="d-flex align-items-center"><i class="fa fa-clock-o"></i> <a href="#"><time datetime="2020-01-01">@Model.DateCreated</time></a></li>
+                                </ul>
+                            </div>
+
+                            <div class="entry-content">
+                                <span>
+                                    @Html.Raw(Model.BlogContent)
+                                </span>
+                            </div>
+                        </article><!-- End blog entry -->
+
+                        <div class="blog-author d-flex align-items-center">
+                            @if (Model.BlogAutorProfilePicture != null)
+                            {
+                                <img src="@Model.BlogAutorProfilePicture" class="rounded-circle float-left" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/Images/user.jpg" class="rounded-circle float-left" alt="">
+                            }
+                            <div>
+                                <h5>@Model.BlogAutorName</h5>
+                                <h6>@Model.BlogAutorSchool</h6>
+                                <div class="social-links">
+                                    <a href="https://twitters.com/#"><i class="fa fa-twitter"></i></a>
+                                    <a href="https://facebook.com/#"><i class="fa fa-facebook"></i></a>
+                                    <a href="https://instagram.com/#"><i class="fa fa-instagram"></i></a>
+                                </div>
+                            
+                                <span>
+                                    @Model?.AboutMe
+                                </span>
+                            </div>
+                        </div><!-- End blog author bio -->
+
+                        <div class="col-auto float-left ml-auto">
+                            <a class="btn add-btn" asp-controller="Admin" asp-action="ApproveBlog" asp-route-blogId="@Model.Id">Approve</a>
+                        </div>
+
+                        <div class="col-auto float-right ml-auto">
+                            <a class="btn add-btn" asp-controller="Admin" asp-action="DelineBlog" asp-route-blogId="@Model.Id"> Reject</a>
+                        </div>
+                    </div>
+                </div><!-- End blog entries list -->
+            </div>  
+        </section><!-- End Blog Single Section -->
+    </div>
+

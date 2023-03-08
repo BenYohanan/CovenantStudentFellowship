@@ -1,0 +1,208 @@
+﻿@model Core.ViewModels.GeneralBlogViewModel
+@{
+    ViewData["Title"] = ViewBag.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentUser = Session.GetCurrentUser();
+}
+
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <!-- ======= Blog Single Section ======= -->
+        <section id="blog" class="blog" style="padding: 20px 0 20px 0 !important;">
+            <div class="container" data-    aos="fade-up">
+
+                <div class="row">
+
+                    <div class="col-lg-8 entries">
+                        
+                        <article class="entry entry-single">
+                            <h2 class="entry-title">
+                                <a href="blog-single.html">@Model.BlogViewModel?.Title</a>
+                            </h2>
+
+                            <div class="entry-meta">
+                                <ul>
+                                    <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">@Model.BlogViewModel?.BlogAutorName</a></li>
+                                    <li class="d-flex align-items-center"><i class="bi bi-type"></i> <a href="#">@Model.BlogViewModel?.BlogCategoryName</a></li>
+                                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">@Model.BlogViewModel?.DateCreated</time></a></li>
+                                    <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">@Model.BlogViewModel?.BlogComments.Count() Comments </a></li>
+                                </ul>
+                            </div>
+
+                            <div class="entry-content">
+                                <p class="text-wrap">
+                                    @Html.Raw(Model.BlogViewModel?.BlogContent)
+                                </p>
+                            </div>
+
+                            <div class="entry-footer">
+                                <ul class="tags">
+                                    <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#create_project"><i class="bi bi-chat-dots"></i> Add Comment</a></li>
+                                </ul>
+                            </div>
+                        </article><!-- End blog entry -->
+                        
+
+                        <div class="blog-author d-flex align-items-center">
+                            @if (Model.BlogViewModel?.BlogAutorProfilePicture != null)
+                            {
+                                <img src="@Model.BlogViewModel?.BlogAutorProfilePicture" class="rounded-circle float-left" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/Images/user.jpg" class="rounded-circle float-left" alt="">
+                            }
+                            <div>
+                                <h5 class="text-center" style="color:#00A7EF;">About The Author</h5>
+                                <h6>@Model.BlogViewModel?.BlogAutorName</h6>
+                                <div class="social-links">
+                                    <a href="https://twitters.com/#"><i class="bi bi-twitter"></i></a>
+                                    <a href="https://facebook.com/#"><i class="bi bi-facebook"></i></a>
+                                    <a href="https://instagram.com/#"><i class="biu bi-instagram"></i></a>
+                                </div>
+                                <p>
+                                    @Model.BlogViewModel?.AboutMe
+                                </p>
+                            </div>
+                        </div><!-- End blog author bio -->
+                        @if (Model.BlogViewModel?.BlogComments != null && Model.BlogViewModel?.BlogComments.Count > 0)
+                        {
+                            <div class="blog-comments">
+                                <h5 class="comments-count"><a href="#" class="reply"><i class="bi bi-chat-dots"></i> All Comments</a></h5>
+                                <div id="comment-1" class="comment">
+                                    <div class="d-flex">
+                                        <div>
+                                            @foreach (var comment in Model.BlogViewModel.BlogComments)
+                                            {
+                                                @if (@comment.ImageUrl != null)
+                                                {
+                                                    <div class="comment-img"><img src="@comment.ImageUrl" class="rounded-circle" alt=""></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="comment-img"><img src="/Images/user.jpg" class="rounded-circle" alt=""></div>
+                                                }
+                                                <h5><a href="">@comment.FullName</a></h5>
+                                                <time datetime="2020-01-01">@comment.DateAdded.ToString("g")</time>
+                                                <p>
+                                                    @comment.Comment
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div><!-- End blog entries list -->
+
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+                            <h3 class="sidebar-title">Search</h3>
+                            <div class="sidebar-item search-form">
+                                <form action="">
+                                    <input type="text">
+                                    <button type="submit"><i class="bi bi-search"></i></button>
+                                </form>
+                            </div><!-- End sidebar search formn-->
+
+                            <h3 class="sidebar-title">Categories</h3>
+                            <div class="sidebar-item categories">
+                                <ul>
+                                    @if (Model.BlogCategories != null && Model.BlogCategories.Count() > 0)
+                                    {
+                                        foreach (var category in Model.BlogCategories)
+                                        {
+                                            <li><a href="#">@category.Name</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div><!-- End sidebar categories-->
+
+                            <h3 class="sidebar-title">Recent Posts</h3>
+                            <div class="sidebar-item recent-posts">
+                                @foreach (var recentBlog in ViewBag.blog)
+                                {
+                                    @if (recentBlog.Id != Model?.BlogViewModel?.Id)
+                                    {
+                                        <div class="post-item clearfix">
+                                            <img src="@recentBlog.ImageUrl" />
+                                            <h4><a asp-controller="Blog" asp-action="SingleBlog" asp-route-Id="@recentBlog.Id">@recentBlog.Title</a></h4>
+                                            <time datetime="2020-01-01">@recentBlog.DateCreated.ToString("g")</time>
+                                        </div>
+                                    }
+                                }
+                            </div><!-- End sidebar recent posts-->
+
+                            <h3 class="sidebar-title">Tags</h3>
+                            <div class="sidebar-item tags">
+                                <ul>
+                                    <li><a href="#">App</a></li>
+                                    <li><a href="#">IT</a></li>
+                                    <li><a href="#">Business</a></li>
+                                    <li><a href="#">Mac</a></li>
+                                    <li><a href="#">Design</a></li>
+                                    <li><a href="#">Office</a></li>
+                                    <li><a href="#">Creative</a></li>
+                                    <li><a href="#">Studio</a></li>
+                                    <li><a href="#">Smart</a></li>
+                                    <li><a href="#">Tips</a></li>
+                                    <li><a href="#">Marketing</a></li>
+                                </ul>
+                            </div><!-- End sidebar tags-->
+                        </div><!-- End sidebar -->
+                    </div><!-- End blog sidebar -->
+                </div>
+            </div>
+        </section><!-- End Blog Single Section -->
+    </div>
+
+
+
+    <!-- Add Comment Blog Modal -->
+    <div id="create_project" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Leave a Reply</h5>
+                    <a class="btn close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    @if (currentUser != null)
+                    {
+                        <div class="col-sm-12 form-group">
+                            <label>Comment</label>
+                            <textarea rows="4" class="form-control" placeholder="Enter your message here" id="comment"></textarea>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>FullName</label>
+                                <input name="name" type="text" class="form-control" placeholder="Your Name*" id="name">
+                            </div>
+
+
+                            <div class="col-sm-6 form-group">
+                                <label>Email</label>
+                                <input name="email" type="text" class="form-control" placeholder="Your Email*" id="email">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 form-group">
+                            <label>Comment</label>
+                            <textarea rows="4" class="form-control" placeholder="Enter your message here" id="comment"></textarea>
+                        </div>
+                    }
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" onclick="comment('@Model.BlogViewModel?.Id')">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Comment Blog Modal -->
+</div>
+

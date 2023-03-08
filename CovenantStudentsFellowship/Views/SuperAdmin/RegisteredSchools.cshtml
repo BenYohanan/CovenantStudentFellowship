@@ -1,0 +1,281 @@
+﻿@model IEnumerable<Core.ViewModels.SchoolViewModel>
+
+@{
+    ViewData["Title"] = "All Registered School";
+    Layout = Session.GetRoleLayout();
+}
+
+
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+
+    <!-- Page Content -->
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">ALL REGISTERED SCHOOL</h3>
+                </div>
+                <div class="col-auto float-right ml-auto">
+                    <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_employee"><i class="fa fa-plus"></i> Add School</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <!-- Search Filter -->
+        <div class="row filter-row">
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group form-focus">
+                    <input type="text" id="SearceschoolName" class="form-control floating">
+                    <label class="focus-label">School Name</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group form-focus select-focus">
+                    <select id="SSstateId" class="form-control" asp-items="@(new SelectList(@ViewBag.State,  "Id" ,"Name"))" required></select>
+                    <label class="focus-label">State</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <a href="#" class="btn btn-success btn-block" id="search"> Search </a>
+            </div>
+        </div>
+        <!-- /Search Filter -->
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table datatable">
+                    <thead>
+                        <tr>
+                            <th>School Admin</th>
+                            <th>State</th>
+                            <th>Address</th>
+                            <th>Help Line</th>
+                            <th>School Name</th>
+                            <th class="text-right no-sort">Action</th>
+                        </tr>
+                    </thead>
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        <tbody id="schoolTable">
+                            @foreach (var school in Model)
+                            {
+                                <tr>
+                                    <td id="adminName">
+                                        <h2 class="table-avatar">
+                                            @if (school.ProfilePicture != null)
+                                            {
+                                                <a href="#" class="avatar"><img alt="" src="@school.ProfilePicture"></a>
+                                                <a href="#">@school.AdminName <span>@school.AdminDepartment</span></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="avatar"><img alt="" src="/light/assets/img/profiles/avatar-08.jpg"></a>
+                                                <a href="profile.html">@school.AdminName <span>@school.AdminDepartment</span></a>
+                                            }
+                                        </h2>
+                                    </td>
+                                    <td id="state">@school.State</td>
+                                    <td id="address">@school.Address</td>
+                                    <td id="helpLine">@school.PhoneNumber</td>
+                                    <td id="schName">@school.SchoolName</td>
+                                    <td class="text-right">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_employee" onclick="editSchoolDetails(@school.Id)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_employee" onclick="deleteSchool(@school.Id)"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Content -->
+    <!-- Add School Modal -->
+    <div id="add_employee" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add School</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">School Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="schoolName">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">School Code Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="schoolCodeName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">State <span class="text-danger">*</span></label>
+                                <select id="stateId" class="form-control" asp-items="@(new SelectList(@ViewBag.State,  "Id" ,"Name"))" required></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-form-label">School Address <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="schoolAddress">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title">School Admin Details</h5>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-md-6 form-group icon_form comments_form register_contact ">
+                            <label>FirstName<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="firstname" require placeholder="First Name" required>
+                        </div>
+
+                        <div class="col-md-6 form-group icon_form comments_form register_contact">
+                            <label>Middle Name</label>
+                            <input type="text" class="form-control" id="middleName" placeholder="Middle Name">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group icon_form comments_form register_contact">
+                            <label>Last Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" required id="lastName" placeholder="Last Name">
+                        </div>
+
+                        <div class="col-md-6 form-group icon_form comments_form register_contact">
+                            <label>Phone Number<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" required id="phoneNumber" placeholder="0816.....8985">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group icon_form comments_form register_contact">
+                            <label>Date of Birth<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" required id="dateOfBirth" placeholder="Date of Birth">
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Gender<span class="text-danger">*</span></label>
+                                <select id="genderId" class="form-control" asp-items="@(new SelectList(@ViewBag.Gender,  "Id" ,"Name"))" required></select>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-12 form-group icon_form comments_form register_contact">
+                            <label>Email<span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" required id="email" placeholder="csf@gmail.com">
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" onclick="addSchool()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add School Modal -->
+    <!-- Edit School Modal -->
+    <div id="edit_employee" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit School</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <input class="form-control" type="text" id="schoolId" hidden>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">School Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="editSchoolName">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">School Code Name</label>
+                                <input class="form-control" type="text" id="editSchoolCodeName">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Fellowship Admin <span class="text-danger">*</span></label>
+                                <input class="form-control userAutoComp" type="text" id="editSchoolAdminId">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Email <span class="text-danger">*</span></label>
+                                <input class="form-control" type="email" id="editAddress">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>State <span class="text-danger">*</span></label>
+                                <select id="editStateId" class="form-control" required></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" onclick="editedSchool()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Edit School Modal -->
+    <!-- Delete School Modal -->
+    <div class="modal custom-modal fade" id="delete_employee" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Delete School</h3>
+                        <p>Are you sure want to delete?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <input class="form-control" type="text" id="deleteSchoolId" hidden>
+                            <div class="col-6">
+                                <a class="btn btn-primary continue-btn" onclick="DeletedSchool()">Delete</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Delete School Modal -->
+
+</div>
+<!-- /Page Wrapper -->
+

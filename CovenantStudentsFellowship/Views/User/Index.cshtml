@@ -1,0 +1,313 @@
+﻿@model Core.ViewModels.AdminPageViewModel
+
+@{
+	ViewData["Title"] = "User Dashboard";
+	Layout = Session.GetRoleLayout();
+	var loggedInUser =Session.GetCurrentUser();
+}
+
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+	<!-- Page Content -->
+	<div class="content container-fluid">
+
+		<!-- Page Header -->
+		<div class="page-header">
+			@if (loggedInUser.VerificationStatus.ToString() == "InComplete")
+			{
+				<div class="col-auto">
+					<div class="col-sm-12 float-right pb-2 ml-auto">
+						<div class="alert-dismissible alert fade show float-right" style="background: #01A2EC; color:white;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							Your Registration process is yet to be completed <a asp-controller="User" asp-action="CompleteRegistration" asp-route-userId="@loggedInUser.Id" style="color:white;text-decoration: underline" class="alert-link">COMPLETE REGISTRATION</a>
+						</div>
+					</div>
+				</div>
+			}
+			else
+			{
+
+				<div class="col-auto">
+					<div class="col-sm-12 float-right pb-2 ml-auto">
+						<a class="btn add-btn float-right" asp-controller="Blog" asp-action="CreateBlog"><i class="fa fa-plus"></i> Create Blog</a>
+					</div>
+				</div>
+			}
+		</div>
+		<!-- /Page Header -->
+		<!-- Content Starts -->
+		<div class="row justify-content-center">
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-diamond"></i></span>
+						<div class="dash-widget-info">
+							<h3>@ViewBag.AllEvent.Count</h3>
+							<span>All Event</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+						<div class="dash-widget-info">
+							<h3>@ViewBag.AllBlogs.Count</h3>
+							<span>Total Blogs</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card-group m-b-30">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Sunday</span>
+								</div>
+								<div>
+									<span class="text-success">7:30 AM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Sunday?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Sunday?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Sunday?.SpeakerName</span></p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Wednesday</span>
+								</div>
+								<div>
+									<span class="text-success">5:00 PM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Wednesday?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Wednesday?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Wednesday?.SpeakerName</span></p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Erev Shabbath</span>
+								</div>
+								<div>
+									<span class="text-success">5:00 PM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Friday?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Friday?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Friday?.SpeakerName</span></p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Shabbath Day</span>
+								</div>
+								<div>
+									<span class="text-success">9:00 AM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Shabbath?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Shabbath?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Shabbath?.SpeakerName</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6 d-flex">
+						<div class="card card-table flex-fill">
+							<div class="card-header">
+								<h3 class="card-title mb-0 text-center">Document</h3>
+							</div>
+						   
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table custom-table mb-0">
+											<thead>
+												<tr>
+													<th>File</th>
+													<th>Name</th>
+													<th class="text-right">Action</th>
+												</tr>
+											</thead>
+										@if (Model.DocumentViewModel != null && Model.DocumentViewModel.Count > 0)
+										{
+											<tbody>
+												@foreach (var document in Model.DocumentViewModel)
+												{
+													<tr>
+														<td>
+															<h2 class="table-avatar">
+																<a href="#" class="avatar"><img alt="" src="~/Images/Logooo.png"></a>
+																<a href="client-profile.html"><span>@document.DocumentList.ToString()</span></a>
+															</h2>
+														</td>
+														<td>@document.Name</td>
+														<td class="text-center">
+															<a onclick="Downloadpdf('@document.Id')" id="@document.Id" class="btn btn-sm btn-primary">
+																<i class="fa fa-download fa-spin mr-1"></i> Download
+															</a>
+														</td>
+													</tr>
+												}
+											</tbody>
+										}
+									</table>
+								</div>
+								</div>
+						</div>
+					</div>
+
+					<div class="col-md-6 d-flex">
+						<div class="card card-table flex-fill">
+							<div class="card-header">
+								<h3 class="card-title mb-0 text-center">Dues For The Semester</h3>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table custom-table mb-0">
+										<thead>
+											<tr>
+												<th>Dues Tittle</th>
+												<th>Amount</th>
+											</tr>
+										</thead>
+										@if (Model.DuesViewModel != null && Model.DuesViewModel.Count > 0)
+										{
+											<tbody>
+												@foreach (var dues in Model.DuesViewModel)
+												{
+													<tr>
+														<td>@dues.Name</td>
+														<td>&#8358; @dues.Amount</td>
+													</tr>
+												}
+											</tbody>
+										}
+									</table>
+								</div>
+							</div>  
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6 d-flex">
+						<div class="card profile-box flex-fill">
+							<div class="card-body">
+								<h3 class="card-title">CSF Nigeria Bank information</h3>
+								<ul class="personal-info">
+									<li>
+										<div class="title">Bank name</div>
+										<div class="text">Covenant Students' Fellowship</div>
+									</li>
+									<li>
+										<div class="title">Bank account No.</div>
+										<div class="text">0103758995</div>
+									</li>
+									<li>
+										<div class="title">Bank Name</div>
+										<div class="text">Access Bank</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6 d-flex">
+						@if (Model.Events != null && Model.Events.Count > 0)
+						{
+							<div class="card profile-box flex-fill">
+								<div class="card-body">
+									<h3 class="card-title">Upcoming Event For the Semester</h3>
+									@foreach (var program in Model.Events)
+									{
+										<ul class="personal-info">
+											<li>
+												<div class="title">Title: </div>
+												<span class="ml-1">@program.Title</span>
+											</li>
+											<li>
+												<div class="title">Date: </div>
+												<span class="ml-1">@program.Date</span>
+											</li>
+											<li>
+												<div class="title">Note: </div>
+												<span class="ml-1">@program.Note</span>
+											</li>
+										</ul>
+										<hr>
+									}
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@if (Model.BlogViewModel != null && Model.BlogViewModel.Count > 0)
+		{
+			<div class="row">
+				@foreach (var blog in Model.BlogViewModel)
+				{
+					<div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="project-title text-center"><a href="#">@blog.Title</a></h4>
+								<small class="block text-ellipsis m-b-15 text-center">
+									<span class="text-xs">@blog.BlogComments.Count()</span> <span class="text-muted">Comment</span>
+								</small>
+								<p class="text-muted">
+									@Html.Raw(blog.BlogContent)
+								</p>
+								<div class="pro-deadline m-b-15">
+									<div class="sub-title">
+										Date Created:
+									</div>
+									<div class="text-muted">
+										@blog.DateCreated
+									</div>
+								</div>
+								<div class="project-members m-b-15">
+									<div>Author's Name: </div>
+									<div class="text-muted">@blog.BlogAutorName</div>
+								</div>
+
+								<div class="submit-section">
+									<a class="btn btn-primary submit-btn" asp-route-id="@blog.Id" asp-controller="Blog" asp-action="SingleBlog">Read More</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		}
+		<!-- /Content End -->
+	</div>
+	<!-- /Page Content -->
+</div>

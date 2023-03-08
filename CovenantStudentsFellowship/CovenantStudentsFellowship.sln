@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovenantStudentsFellowship", "CovenantStudentsFellowship.csproj", "{114CBC7C-52EB-49B9-A1FF-4E41557D29FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\Core\Core.csproj", "{300DB160-EA18-4247-8C22-43FE93CF8CB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "..\Logic\Logic.csproj", "{220EC7A3-81B5-4F0E-98DB-036EC330435F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{114CBC7C-52EB-49B9-A1FF-4E41557D29FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114CBC7C-52EB-49B9-A1FF-4E41557D29FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114CBC7C-52EB-49B9-A1FF-4E41557D29FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114CBC7C-52EB-49B9-A1FF-4E41557D29FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300DB160-EA18-4247-8C22-43FE93CF8CB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300DB160-EA18-4247-8C22-43FE93CF8CB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300DB160-EA18-4247-8C22-43FE93CF8CB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300DB160-EA18-4247-8C22-43FE93CF8CB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{220EC7A3-81B5-4F0E-98DB-036EC330435F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220EC7A3-81B5-4F0E-98DB-036EC330435F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220EC7A3-81B5-4F0E-98DB-036EC330435F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220EC7A3-81B5-4F0E-98DB-036EC330435F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D953FC2-A619-4CF2-9B69-A72666A90848}
+	EndGlobalSection
+EndGlobal

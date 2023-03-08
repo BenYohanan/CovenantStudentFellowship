@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Core.ViewModels.GalleryViewModel>
+
+@{
+    ViewData["Title"] = "All Picture";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ======= Gallery Section ======= -->
+@if (Model != null && Model.Count() > 0)
+{
+    <section id="gallery" class="gallery" style="padding:0px; margin-top:95px;">
+        <div class="container-fluid">
+            <div>
+                <h2 class="text-center">PHOTO GALLERY</h2>
+            </div>
+            <div class="row">
+                @foreach (var photo in Model)
+                {
+                    <div class="col-lg-3 col-md-4">
+                        <div class="gallery-item" style="border-right: 3px solid #777777; border-bottom:3px solid #777777">
+                            <a href="@photo.ImageUrl" class="gallery-lightbox" data-gall="gallery-item">
+                                <img src="@photo.ImageUrl" alt="" class="img-fluid" style="height:300px; max-width:400px;">
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <span>@photo.Title</span>
+                            <p>@photo.Note</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+<section id="gallery" class="gallery" style="padding:0px; margin-top:95px;">
+    <div class="container-fluid">
+        <div>
+            <h2 class="text-center">PHOTO GALLERY</h2>
+        </div>
+        <div class="row">
+           
+                 
+                        <h4 class="text-center">No Photo Uploaded Yet</h4>
+                  
+                 
+        </div>
+    </div>
+</section>
+}
+<!-- /End Gallery Section -->

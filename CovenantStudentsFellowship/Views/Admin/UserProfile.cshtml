@@ -1,0 +1,129 @@
+﻿@model Core.ViewModels.ApplicationUserViewModel
+
+@{
+    ViewData["Title"] = "User Profile";
+    Layout = Session.GetRoleLayout();
+    var loggedInUser = Session.GetCurrentUser();
+}
+
+<!-- Page Wrapper -->
+<div class="page-wrapper" style="min-height:400px;">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">@loggedInUser.FullName</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- /Page Header -->
+        @if (Model != null)
+        {
+            <div class="card mb-0" style="border: 15px solid #ededed;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="profile-view">
+
+                                <div class="profile-img-wrap">
+                                    <div class="profile-img">
+                                        <a href="#"><img alt="" src="@Model?.ProfilePicture"></a>
+                                    </div>
+                                </div>
+
+                                @Html.HiddenFor(x => x.Id, new { Id = "userId" });
+                                <div class="profile-basic">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <ul class="personal-info profile-info-left">
+                                                <li>
+                                                    <span><b>First name:</b></span>
+                                                    <span class="ml-1">@Model.FirstName</span>
+                                                </li>
+                                                <li>
+                                                    <span><b>Last Name:</b></span>
+                                                    <span class="ml-1">@Model.LastName</span>
+                                                </li>
+                                                <li>
+                                                    <span><b>Middle Name:</b></span>
+                                                    <span class="ml-1">@Model?.MiddleName</span>
+                                                </li>
+                                                <li>
+                                                    <span><b>Email:</b></span>
+                                                    <span class="ml-1">@Model.Email</span>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <span><b>Phone Number:</b></span>
+                                                        <span class="ml-1">@Model.PhoneNumber</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <span><b>Gender: </b></span>
+                                                    <span class="ml-1">@Model.Gender</span>
+                                                </li>
+
+                                                <li>
+                                                    <span><b>Country:</b></span>
+                                                    <span class="ml-1">@Model?.Nationality</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-7">
+                                            <ul class="personal-info">
+                                                <li class="row mb-2">
+                                                    <span><b>Religion: </b></span>
+                                                    <span class="ml-1">@Model?.Religion</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>School: </b></span>
+                                                    <span class="ml-1">@Model?.School</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Home Address: </b></span>
+                                                    <div class="ml-1">@Model?.HomeAddress</div>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>State: </b></span>
+                                                    <span class="ml-1">@Model?.State</span>
+                                                </li>
+
+                                                <li class="row mb-2">
+                                                    <span><b>School Address: </b></span>
+                                                    <span class="ml-1">@Model?.SchoolAddress</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Birth Date: </b></span>
+                                                        <span class="ml-1">@Model.DateOfBirth</span>
+                                                    <div class="title col-3"></div>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Department: </b></span>
+                                                    <span class="ml-1">@Model?.Department</span>
+                                                </li>
+                                                <li class="row mb-2">
+                                                    <span><b>Home Synagyoge: </b></span>
+                                                    <span class="ml-1">@Model?.HomeSynagogue</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+    <!-- /Page Content -->
+</div>
+<!-- /Page Wrapper -->

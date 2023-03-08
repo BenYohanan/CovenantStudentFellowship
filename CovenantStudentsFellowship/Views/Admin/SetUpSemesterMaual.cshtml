@@ -1,0 +1,150 @@
+﻿@{
+	ViewData["Title"] = "Set-Up Semester Manual";
+	Layout = Session.GetRoleLayout();
+}
+
+<style>
+	body {
+		counter-reset: Serial; /* / Set the Serial counter to 0 /*/
+	}
+	tr td:first-child:before {
+		counter-increment: Serial; /* / Increment the Serial counter /*/
+		content: counter(Serial); /*  / Display the counter /*/
+	}
+</style>
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+	<div class="chat-main-row">
+		<div class="chat-main-wrapper">
+			<div class="col-md-10 message-view task-view task-left-sidebar">
+				<div class="chat-window">
+					<div class="chat-contents">
+						<div class="chat-content-wrap">
+							<div class="chat-wrap-inner">
+								<div class="chat-box">
+									<div class="task-wrapper">
+										<div class="task-list-container">
+											<div class="task-list-body">
+												<ul id="task-list">
+													<li class="task">
+														<div class="task-container">
+															<div class="col-sm-4 mt-3 text-center">
+																<h3>Semester Manual</h3>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+											<div class="task-list-body">
+												<ul class="list-unstyled">
+													<li class="task list-style-type-none">
+														<table class="table table-striped custom-table mb-0 table-bordered task-container">
+															<thead>
+																<tr>
+																	<th>S/N</th>
+																	<th>Cordinator</th>
+																	<th>Speaker</th>
+																	<th>Topic</th>
+																	<th>Bible Text</th>
+																	<th>Date</th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody id="addItem">
+															</tbody>
+														</table>
+													</li>
+												</ul>
+											</div>
+											<div>
+												<span class="error-message" style="color:red; display:none">You need to enter a detail(s) first</span>
+												<span class="btn" id="close-task-panel">Close</span>
+											</div>
+											<div class="task-list-footer pt-2">
+												<div class="new-task-wrapper">
+													<div class="task-list-body pb-2">
+														<ul id="task-list">
+															<li class="task" id="new-task">
+																<div class="task-container">
+																	<div class="row">
+																		<div class="col-md-4">
+																			<div class="form-group">
+																				<label class="col-form-label">Cordinator</label>
+																				<select id="cordinatorId" asp-items="@(new SelectList(ViewBag.Cordinator  ,"Id", "FullName" ))" class="form-control"> </select>
+																			</div>
+																		</div>
+																		<div class="col-md-4">
+																			<div class="form-group">
+																				<label class="col-form-label">Speaker</label>
+																				<select id="speakerId" asp-items="@(new SelectList(ViewBag.Speakers  ,"Id", "FullName" ))" class="form-control"> </select>
+																			</div>
+																		</div>
+																		<div class="col-md-4">
+																			<div class="form-group">
+																				<label class="col-form-label">Topic</label>
+																				<input type="text" class="form-control" placeholder="He's Able" id="topic">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-md-4">
+																			<div class="form-group">
+																				<label class="col-form-label">Bible Text</label>
+																				<input type="text" class="form-control" placeholder="Genesis 1 vs 1" id="bibleText">
+																			</div>
+																		</div>
+																		<div class="col-md-4">
+																			<div class="form-group">
+																				<label class="col-form-label">Date</label>
+																				<input type="date" class="form-control" id="date">
+																			</div>
+																		</div>
+																		<div class="col-md-4">
+																			<div class="form-group">
+																				<button class="btn btn-white btn-primary" style="color:white;" onclick="append()">Add Item</button>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="task-wrapper justify-content-center">
+												<div class="navbar">
+													<div class="float-left mr-auto">
+														<div class="add-task-btn-wrapper bg-primary">
+															<span class="add-task-btn btn btn-white btn-md">
+																Add	Activity
+															</span>
+														</div>
+													</div>
+
+													<div class="float-right ml-auto pt-3">
+														<div class="add-task-btn-wrapper">
+															<button id="saveTreatment" class="btn btn-white btn-primary btn-lg" style="color:white;">
+																Save & Continue
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="notification-popup hide">
+										<p>
+											<span class="task"></span>
+											<span class="notification-text"></span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Page Wrapper -->

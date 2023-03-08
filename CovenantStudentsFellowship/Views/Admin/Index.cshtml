@@ -1,0 +1,233 @@
+﻿@model Core.ViewModels.AdminPageViewModel
+@{
+	ViewData["Title"] = "Admin Index";
+	Layout = Session.GetRoleLayout();
+	var loggedInUser = Session.GetCurrentUser();
+}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+	<!-- Page Content -->
+	<div class="content container-fluid">
+
+	<!-- Page Header -->
+		<div class="page-header">
+			@if (loggedInUser.VerificationStatus.ToString() == "InComplete")
+			{
+				<div class="col-auto">
+					<div class="col-sm-12 float-right pb-2 ml-auto">
+						<div class="alert-dismissible alert fade show float-right" style="background: #01A2EC; color:white;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							Your Registration process is yet to be completed <a asp-controller="User" asp-action="CompleteRegistration" asp-route-userId="@loggedInUser.Id" style="color:white; text-decoration: underline" class="alert-link">COMPLETE REGISTRATION</a>
+						</div>
+					</div>
+				</div>
+			}
+			else
+			{
+				<div class="col-auto">
+					<div class="col-sm-12 float-right pb-2 ml-auto">
+						<a class="btn add-btn float-right" asp-controller="Blog" asp-action="CreateBlog"><i class="fa fa-plus"></i> Create Blog</a>
+					</div>
+				</div>
+			}
+		</div>
+		<!-- /Page Header -->
+
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-cubes"></i></span>
+						<div class="dash-widget-info">
+							<h3>@Model.ActiveUserCount</h3>
+							<span>Active Members</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-usd"></i></span>
+						<div class="dash-widget-info">
+							<h3>@Model.EventCount</h3>
+							<span>Events</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-diamond"></i></span>
+						<div class="dash-widget-info">
+							<h3>@Model.BlogCount</h3>
+							<span>Blogs</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card-group m-b-30">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Sunday</span>
+								</div>
+								<div>
+									<span class="text-success">7:30 AM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Sunday?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Sunday?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Sunday?.SpeakerName</span></p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Wednesday</span>
+								</div>
+								<div>
+									<span class="text-success">5:00 PM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Wednesday?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Wednesday?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Wednesday?.SpeakerName</span></p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Erev Shabbath</span>
+								</div>
+								<div>
+									<span class="text-success">5:00 PM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Friday?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Friday?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Friday?.SpeakerName</span></p>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex justify-content-between mb-3">
+								<div>
+									<span class="d-block">Shabbath Day</span>
+								</div>
+								<div>
+									<span class="text-success">9:00 AM</span>
+								</div>
+							</div>
+							<p class="mb-0">Topic: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Shabbath?.Name</span></p>
+							<p class="mb-0">Coordinator: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Shabbath?.CordinatorName</span></p>
+							<p class="mb-0">Speaker: <span class="text-muted">@Model?.WeeklyActivityViewModel?.Shabbath?.SpeakerName</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		 <div class="row">
+			<div class="col-md-6 d-flex">
+				<div class="card card-table flex-fill">
+					<div class="card-header">
+						<h3 class="card-title mb-0">Top Blogs</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-nowrap custom-table mb-0">
+								<thead>
+									<tr>
+										<th>Title</th>
+										<th>Authors Name</th>
+										<th>Date Added</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								@if (Model?.BlogViewModel != null && Model.BlogViewModel?.Count() > 0)
+								{
+									<tbody>
+										@foreach (var blog in Model.BlogViewModel)
+										{
+											<tr>
+												<td><a asp-controller="Blog" asp-action="SingleBlog" asp-route-id="@blog.Id">@blog.Title</a></td>
+												<td>
+													@blog.BlogAutorName
+												</td>
+												<td>@blog.DateCreated</td>
+
+												<td>
+													@if (blog?.BlogStatus == "Approved")
+													{
+														<span class="badge bg-inverse-warning">Approved</span>
+													}
+													else if (blog?.BlogStatus == "Pending")
+													{
+														<span class="badge bg-inverse-info">Pending</span>
+													}
+													else
+													{
+														<span class="badge bg-inverse-danger">Decline</span>
+													}
+												</td>
+											</tr>
+										}
+									</tbody>
+								}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 d-flex">
+				<div class="card card-table flex-fill">
+					<div class="card-header">
+						<h3 class="card-title mb-0">Top Events</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table custom-table table-nowrap mb-0">
+								<thead>
+									<tr>
+										<th>Title</th>
+										<th>Note</th>
+										<th>Event Date</th>
+									</tr>
+								</thead>
+								@if (Model?.Events != null && Model.Events?.Count > 0)
+								{
+									<tbody>
+										@foreach (var topEvent in Model.Events)
+										{
+											<tr>
+												<td>@topEvent.Title</td>
+												<td>
+													@topEvent.Note
+												</td>
+												<td>@topEvent.Date</td>
+											</tr>
+										}
+									</tbody>
+								}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Page Content -->
+</div>
+<!-- /Page Wrapper -->

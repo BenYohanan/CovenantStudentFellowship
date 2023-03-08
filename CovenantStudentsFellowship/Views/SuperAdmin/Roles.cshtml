@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Core.ViewModels.RoleViewModel>
+
+@{
+    ViewData["Title"] = "Roles";
+    Layout = Session.GetRoleLayout();
+}
+
+<div class="main-wrapper">
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+        <!-- Page Content -->
+        <div class="content container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="breadcrumb-item">Roles and Permission</h3>
+                    </div>
+
+                    <div class="col-auto float-right ml-auto">
+                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_leave"><i class="fa fa-plus"></i>Add Role</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+            <!--List of dropdown-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <table class="table table-striped custom-table mb-0 datatable">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                @if (Model != null && Model.Count() > 0)
+                                {
+                                    <tbody>
+                                        @foreach (var role in Model)
+                                        {
+                                            <tr>
+                                                <td>@role.User.Email</td>
+                                                <td>@role.Role.Name</td>
+
+                                                <td class="text-right">
+                                                    <div class="dropdown dropdown-action">
+                                                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" onclick="removeRole('@role.Role.Id', '@role.User.Id')" data-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i>Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                      </div>
+                </div>
+            </div>
+            <!--/List of dropdown-->
+        </div>
+        </div>
+
+        <!-- Add Leave Modal -->
+        <div id="add_leave" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>All Roles</label>
+                            <select class="form-control select" required id="roleId" asp-items="@(new SelectList(@ViewBag.Roles, "Id", "Name" ))"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="">
+                                <input class="form-control" id="email" type="text">
+                            </div>
+                        </div>
+
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn" onclick="AddRole()">Submit</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Add Leave Modal -->
+        <!-- Delete Leave Modal -->
+        <div class="modal custom-modal fade" id="delete_approve" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-header">
+                            <h3>Remove User</h3>
+                            <p>Are you sure want to Remove this User</p>
+                        </div>
+                        <div class="modal-btn delete-action">
+
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <input class="form-control" id="deletedRoleId" type="text" hidden>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <input class="form-control" id="userId" type="text" hidden>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <a onclick="roleRemove()" class="btn btn-primary continue-btn">Delete</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Delete Leave Modal -->
+    </div>
+    <!-- /Page Wrapper -->
+</div>

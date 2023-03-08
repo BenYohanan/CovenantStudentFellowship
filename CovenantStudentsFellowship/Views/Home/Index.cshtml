@@ -1,0 +1,554 @@
+﻿@model Core.ViewModels.HomePageViewModel
+
+@{
+    ViewData["Title"] = "Covenant Students' Fellowship";
+    Layout = null;
+    var loggedInUser = Session.GetCurrentUser();
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Covenant Students' Fellowship Nigeria</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <script src="~/js/jquery-3.5.1.min.js"></script>
+    <script src="~/js/Csf.js"></script>
+    <script src="~/js/app.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Favicons -->
+    <link href="~/Images/CSF LOGO EXTRACT 1.png" rel="icon">
+    <link href="~/Images/CSF LOGO EXTRACT 1.png" rel="apple-touch-icon">
+    <!--Vendor CSS Files-->
+    <link href="~/CSF/assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/CSF/assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link href="~/CSF/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSF/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/CSF/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="~/CSF/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="~/CSF/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="~/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/CSF/assets/css/style.css" rel="stylesheet" />
+
+    <script>
+
+        function errorAlert(message) {
+            Swal.fire({
+                icon: 'error',
+                text: message,
+                confirmButtonColor: "#00A7EF",
+                timer: 30000,
+            })
+        }
+        function newSuccessAlert(message, url) {
+            Swal.fire({
+                title: "Success",
+                icon: 'success',
+                text: message,
+                confirmButtonColor: "#00A7EF",
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    location.reload(url);
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div id="loader-wrapper">
+        <div id="loader">
+            <div class="loader-ellips">
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+            </div>
+        </div>
+    </div>
+    <!-- /Loader -->
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-cente" style="padding:10px;">
+        <div class="container-fluid d-flex align-items-center justify-content-lg-between">
+            <!-- image logo -->
+            <a asp-controller="Home" asp-action="Index" class="logo me-auto me-lg-0">
+                <img src="~/Images/CSF LOGO EXTRACT 1.png" class="img-fluid" />
+            </a>
+            <!-- navbar -->
+            <nav id="navbar" class="navbar order-last order-lg-0">
+
+                @if (loggedInUser != null)
+                {
+                    <ul>
+                        @if (loggedInUser.UserRole == Session.Constants.SuperAdminRole)
+                        {
+                            <li><a class="nav-link" href="/SuperAdmin/Index">Dashboard</a></li>
+                        }
+                        else if(loggedInUser.UserRole == Session.Constants.SchoolAdminRole)
+                        {
+                            <li><a class="nav-link" href="/Admin/Index">Dashboard</a></li>
+                        }
+                        else{
+                            <li><a class="nav-link" href="/User/Index">Dashboard</a></li>
+                        }
+                        <li>
+                            <a asp-controller="Blog" asp-action="Index">Blog</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" asp-controller="User" asp-action="Photos">Gallery</a>
+                        </li>
+                        <form class="getstarted" asp-action="Logout" asp-controller="Account" method="post">
+                            <button style="background: #00A7EF; color: white; border: none;">Logout</button>
+                        </form>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li>
+                            <a class="nav-link scrollto active" href="#hero">Home</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#"><span>About Us</span></a>
+                            <ul>
+                                <li>
+                                    <a href="#">Who we are</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our History</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our Core Value</a>
+                                </li>
+                                <li>
+                                    <a href="#">Governing council</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our Philosophy</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our Mission</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our Vision</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a asp-controller="Blog" asp-action="Index">Blog</a>
+                        </li>
+                        <li>
+                            <a class="nav-link scrollto" href="#events">Events</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" asp-controller="User" asp-action="Photos">Gallery</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" asp-controller="User" asp-action="SortSchool">Locate a Campus</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#"><span>Register</span></a>
+                            <ul>
+                                <li>
+                                    <a href="#">Alumni</a>
+                                </li>
+                                <li>
+                                    <a href="~/Account/UserRegistration">Member</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="getstarted" href="~/Account/Login">Login</a>
+                        </li>
+                    </ul>
+                }
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!--/navbar -->
+        </div>
+    </header>
+    <!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center" style="background: url(@Model?.PictureViewModel?.MainUrl)top center; width:100%; height:100vh; background-size:cover; position:relative; padding:0px;">
+        <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>Shalom Aleichem!</h2>
+                    <h1>
+                        Welcome to
+                        <span>CSF Nigeria</span>
+                    </h1>
+                    <h2>Building The Inner Man!</h2>
+                    <div class="btns">
+                        <a href="~/Blog/Index" class="btn-menu animated fadeInUp scrollto">Our Blog</a>
+                        <a asp-controller="User" asp-action="Donation" class="btn-book animated fadeInUp scrollto">Donate</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in" data-aos-delay="200">
+                    <a href="https://www.youtube.com/channel/UCEt5RuUY7hrlDO91Uf3VEzA" class="glightbox play-btn"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Hero -->
+
+    <main id="main">
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about" style="background:url(@Model?.PictureViewModel?.AboutUrl) center center; background-size:cover; position:relative; padding: 80px 0px;">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="about-img">
+                            <img src="~/Images/CSF LOGO EXTRACT 1.png" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                        <h3>About CSF</h3>
+                        <p class="fst-italic">
+                            ...BUILDING THE INNER MAN...
+                        </p>
+                        <ul>
+                            <li>
+                                <i class="bi bi-check-circle"></i> Covenant Students’ Fellowship (CSF) is a gathering of
+                                students who observe or wish to observe the seventh day rest (Shabbath)
+                                as commanded by Elohim in Exodus(Shemoth) 20:8-11
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle"></i> The basis of Covenant Students’ Fellowship (CSF) is the Word and Will
+                                of the creator.
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle"></i> Progress, Love And Unity is our Lifestyle
+                            </li>
+                        </ul>
+                        <p>
+                            Covenant Students' Fellowship (CSF) is an indigenous, non-governmental and interdenominational organization of Jewish students
+                            in Nigeria tertiary institutions. We unite ourselves for the purpose of increasing the knowledge of our faith, and upholding the sublime truth
+                            which establish the seventh day of week (Saturday) as the Shabbath Day, as sacred and vital element of the Torah, and as Elohim's Holy Day, made
+                            for all mankind.
+                            <br />
+                            <br /> Today’s students are tomorrow’s leaders, shape a student and you would have shaped the future.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /End About Section -->
+        <!-- ======= What We Do In CSF Section ======= -->
+        <section id="why-us" class="why-us">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>What We Do In CSF</h2>
+                    <p>... Our work in brief</p>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-3 mt-4 mt-lg-0">
+                        <div class="box" data-aos="zoom-in" data-aos-delay="100">
+                            <span>01</span>
+                            <h4>Evangelism</h4>
+                            <p>To propagate Jewish doctrine/practice in our campus</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 mt-4 mt-lg-0">
+                        <div class="box" data-aos="zoom-in" data-aos-delay="200">
+                            <span>02</span>
+                            <h4>Unity</h4>
+                            <p>To bring together all Jewish students in our campus</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 mt-4 mt-lg-0">
+                        <div class="box" data-aos="zoom-in" data-aos-delay="200">
+                            <span>03</span>
+                            <h4>Love</h4>
+                            <p>
+                                To ensure that our members are flourishing in faith and in wealth by embarking on projects that are
+                                in consonance with the attainment of the above objective.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 mt-4 mt-lg-0">
+                        <div class="box" data-aos="zoom-in" data-aos-delay="200">
+                            <span>04</span>
+                            <h4>Discipleship</h4>
+                            <p>Discipleship is the act of making someone becoming more like His/Her master. In our case, we seek to make them become more like Ha Massiach(The Messiah).</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+        <!-- /End What We Do In CSF Section -->
+        
+        <!-- ======= Events Section ======= -->
+        <section id="events" class="events" style="background:url(@Model?.PictureViewModel?.EventUrl)center center no-repeat; position:relative; background-size:cover;">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title">
+                    <h2>Events</h2>
+                    <p>Upcoming Event</p>
+                </div>
+                @if (Model?.Events != null && Model.Events.Count > 0)
+                {
+                    <div class="events-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                        <div class="swiper-wrapper">
+
+                            @foreach (var events in Model.Events)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="row event-item">
+                                        <div class="col-lg-6">
+                                            <img src="#" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 pt-4 pt-lg-0 content">
+                                            <h3>@events.Title</h3>
+                                            <div class="price">
+                                                <p>
+                                                    <span>@events.Date</span>
+                                                </p>
+                                            </div>
+                                            <p class="fst-italic">
+                                                @events.Note
+                                            </p>
+                                            <p class="fst-italic">
+                                                School: <span>@events.SchoolName</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                }
+            </div>
+        </section>
+        <!-- End Events Section -->
+        <!-- ======= Blog Section ======= -->
+        <section id="testimonials" class="testimonials section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Our Blog</h2>
+                    <p>Read and Get Inspired</p>
+                </div>
+
+                @if (Model?.Blog != null && Model.Blog.Count > 0)
+                {
+                    <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                        <div class="swiper-wrapper">
+                            @foreach (var blog in Model.Blog)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="testimonial-item">
+                                        <p>
+                                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                            @Html.Raw(blog?.ShortDetails)
+                                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                        </p>
+                                        <img src=@blog?.BlogAutorProfilePicture class="testimonial-img" alt="">
+                                        <h3>@blog?.Title</h3>
+                                        <h4>@blog?.BlogAutorName</h4>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>    
+                }
+            </div>
+        </section><!-- /End Blog Section -->
+        @*<!-- ======= Gallery Section ======= -->
+        <section id="gallery" class="gallery">
+
+            <div class="container" data-aos="fade-up">
+                <div class="section-title ">
+                    <h2>Gallery</h2>
+                    <p>Some photos from Our Service</p>
+                </div>
+            </div>
+
+            @if (Model?.Gallery != null && Model.Gallery.Count > 0)
+            {
+                <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row g-0">
+                        @foreach (var picture in Model.Gallery)
+                        {
+                            <div class="col-lg-3 col-md-4">
+                                <div class="gallery-item">
+                                    <a href=@picture.ImageUrl class="gallery-lightbox" data-gall="gallery-item">
+                                        <img src=@picture.ImageUrl style="height:250px; max-width:500px;" />
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+        </section>
+        <!-- End Gallery Section -->*@
+        <!-- =======Weekly Activities  Section ======= -->
+        <section id="menu" class="menu section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Weekly Activities</h2>
+                    <p>Our Days Of Worship</p>
+                </div>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-12 col-sm-12 d-flex justify-content-center">
+                        <ul id="menu-flters">
+                            <li data-filter="*" class="filter-active">SUNDAY</li>
+                            <li data-filter=".filter-starters"> FRIDAY</li>
+                            <li data-filter=".filter-salads">SHABBATH</li>
+                            <li data-filter=".filter-salads">WEDNESDAY</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="col-lg-6 col-sm-12 menu-item filter-salads">
+                        <img src="~/Images/Logooo.png" class="menu-img" alt="">
+                        <div class="menu-content">
+                            <h5>Sundays </h5>
+                            <span>7AM - 9AM</span>
+                        </div>
+                        <div class="menu-ingredients">
+                            Commanding your Week
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-6 col-sm-12 menu-item filter-specialty">
+                        <img src="~/Images/Logooo.png" class="menu-img" alt="">
+                        <div class="menu-content">
+                            <h5>Fridays </h5>
+                            <span>5PM - 7PM</span>
+                        </div>
+                        <div class="menu-ingredients">
+                            Shabbath Erev - Ushering In Of Shabbath
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12 menu-item filter-starters">
+                        <img src="~/Images/Logooo.png" class="menu-img" alt="">
+                        <div class="menu-content">
+                            <h5>Saturdays </h5>
+                            <span>9AM - 2PM</span>
+                        </div>
+                        <div class="menu-ingredients">
+                            Shabbath Day
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12 menu-item filter-starters">
+                        <img src="~/Images/Logooo.png" class="menu-img" alt="">
+                        <div class="menu-content">
+                            <h5>Wednesdays </h5>
+                            <span>5PM - 7PM</span>
+                        </div>
+                        <div class="menu-ingredients">
+                            Prayer Meeting
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+        <!-- /End Weekly Activities Section -->
+    </main><!-- End #main -->
+    <!--Footer-->
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-info">
+                            <h4><strong>Covenant Students' Fellowship (CSF)</strong></h4>
+                            <p>
+                                Rm 3 FUTOWA Hall, FUTO <br>
+                                Owerri Imo, Nigeria.<br><br>
+                                <strong>Phone:</strong> +234 816 301 7274 <br />
+                                <strong>Email:</strong> covenantstudentsfellowship@gmail.com<br>
+                                <strong>info:</strong> csf.org.ng
+                            </p>
+                            <div class="social-links mt-3">
+                                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                                <a href="https://web.facebook.com/csffuto.shabbathfold" class="facebook"><i class="bx bxl-facebook"></i></a>
+                                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>About Us</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Who we are</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Our History</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Our Core Value</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Governing council</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Our Philosophy</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Our Mission</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Our Vision</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="User" asp-action="SortSchool">Locate a campus</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Contact us</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Donate</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="Blog" asp-action="Index">Our Blog</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-controller="Account" asp-action="Login">Login</a></li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="col-lg-4 col-md-6 footer-newsletter">
+                        <h4>Our Blog</h4>
+                        <p>Sign up to get notification when a new article is released</p>
+                        <div class="form-group">
+                            <input type="email" name="email" id="subscriptionEmail"> <button class="btn rounded" style="background-color:#00A7EF; border:0; color:white;padding:4px;" onclick="subscribe()">Subscribe</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy;  @DateTime.Now.Year <strong><span> - Covenant Students' Fellowship</span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </footer> <!--/End Footer-->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <script src="~/CSF/assets/vendor/aos/aos.js"></script>
+    <script src="~/CSF/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/CSF/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/CSF/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/CSF/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/CSF/assets/vendor/php-email-form/validate.js"></script>
+    <script src="~/js/sweetalert2.all.min.js"></script>
+    <script src="~/CSF/assets/js/main.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,38 @@
+﻿@model Core.ViewModels.EmailChangeViewModel
+
+@{
+    ViewData["Title"] = "Change Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main Wrapper -->
+<div class="main-wrapper" style="padding-top:100px;">
+    <div class="account-content">
+        <div class="container">
+            <div class="account-box">
+                <div class="account-wrapper">
+
+                    <h3 class="account-title">Change Email</h3>
+                    <p class="account-subtitle">Please endeavor to change to a valid e-mail address</p>
+
+                    <!-- Account Form -->
+                    <div class="form-group">
+                        <label>Enter New Email Address</label>
+                        <input class="form-control" id="emailAddress" type="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Re-enter Email Address</label>
+                        <input class="form-control" id="ConfirmEmail" type="email">
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary account-btn" type="submit" onclick="ChangeEmail()">Change E-mail Address</button>
+                    </div>
+                    <div class="account-footer">
+                        <p>Remembered your Email? <a href="~/Account/Login">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Main Wrapper -->

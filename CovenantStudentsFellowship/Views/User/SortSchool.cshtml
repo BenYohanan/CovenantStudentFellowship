@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Core.ViewModels.SchoolViewModel>
+
+@{
+	ViewData["Title"] = "Sort School";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+	<!-- Page Wrapper -->
+	<div class="page-wrapper">
+
+		<!-- Page Content -->
+		<div class="content container-fluid">
+
+			<!-- Page Header -->
+			<div class="page-header">
+				<div class="row align-items-center">
+					<div class="col">
+						<h3 class="page-title">School</h3>
+					</div>
+				</div>
+			</div>
+			<!-- /Page Header -->
+			<!-- Search Filter -->
+			<div class="row filter-row">
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group form-focus">
+						<input type="text" id="schoolName" class="form-control floating">
+						<label class="focus-label">School Name</label>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="form-group form-focus select-focus">
+						<select id="stateId" class="form-control" asp-items="@(new SelectList(@ViewBag.State,  "Id" ,"Name"))" required></select>
+						<label class="focus-label">State</label>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<a href="#" class="btn btn-success btn-block" id="search"> Search </a>
+				</div>
+			</div>
+			<!-- /Search Filter -->
+
+			<div class="row">
+				@if (Model != null && Model.Count() > 0)
+				{
+					<div class="col-md-12">
+						<div class="table-responsive">
+							<table class="table table-striped custom-table datatable">
+								<thead>
+									<tr>
+										<th>School Admin Name</th>
+										<th>State</th>
+										<th>Address</th>
+										<th>Help Line</th>
+										<th>School Name</th>
+									</tr>
+								</thead>
+								<tbody id="schoolTable">
+									@foreach (var school in Model)
+									{
+										<tr>
+											<td id="adminName">
+												<h2 class="table-avatar">
+													@if (school.ProfilePicture != null)
+													{
+														<a href="#" class="avatar"><img alt="" src="@school.ProfilePicture?"></a>
+													}
+													<a href="#" class="avatar"><img alt="" src="/light/assets/img/profiles/avatar-02.jpg"></a>
+													<a href="profile.html">@school.AdminName <span>Web Designer</span></a>
+												</h2>
+											</td>
+											<td id="state">@school.StateId</td>
+											<td id="address">@school.Address</td>
+											<td id="helpLine">@school.PhoneNumber</td>
+											<td id="schName">@school.SchoolName</td>
+										</tr>
+									}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				}
+
+			</div>
+		</div>
+		<!-- /Page Content -->
+	</div>
+	<!-- /Page Wrapper -->
+</div>
+ <!-- /Main Wrapper -->
+
+<script>
+	$(document).ready(function () {
+		$('#schoolName').keyup(function () {
+			var value = $("#schoolName").val().toLowerCase();
+
+			$("#schoolTable tr").filter(function () {
+				 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>

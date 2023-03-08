@@ -1,0 +1,212 @@
+﻿@model Core.ViewModels.ApplicationUserViewModel
+
+@{
+    ViewData["Title"] = "Complete Registration";
+    Layout = Layout = Session.GetRoleLayout(); ;
+}
+
+<div class="main-wrapper">
+    <!-- Page Wrapper -->
+    <div class="page-wrapper" style="padding-top:100px;">
+        <!-- Page Content -->
+        <div class="content container-fluid">
+
+            <div class="row">
+               <div class="col-md-3 pt-3">
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+						<h5 class="pt-0 tickcheck1" style="color: #4c5b64;"><i class="fa fa-check-circle" style="font-size: 25px;"></i>  School Informantion</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color: #4c5b64;">|</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color:  #4c5b64;">|</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color:  #4c5b64;">|</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color:  #4c5b64;">|</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color:  #4c5b64;">|</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color:  #4c5b64;">|</h5>
+						<h5 class="px-2 pt-0 tickcheck1" style="color:  #4c5b64;">|</h5>
+					</div>
+					
+					<div class="col-md-12 text-muted">
+                            <h5 class="pt-0 tickcheck2" style="color: #4c5b64;"><i class="fa fa-check-circle " style="font-size: 25px;"></i> Emergency Contact</h5>
+					</div>
+				</div>
+			</div>
+                <div class="col-md-9"  id="schoolInformation">
+                    <div class="tab-content">
+                        <div class="row">
+                            <div class="col-md-6 form-group icon_form comments_form register_contact payment_select_wrapper">
+                                <label>Country<span class="text-danger">*</span></label>
+                                <select class="form-control mySecond_display" required id="countryId" asp-items="@(new SelectList(@ViewBag.Country, "Id", "Name" ))"> </select>
+                            </div>
+
+                            <div class="col-md-6  form-group icon_form comments_form register_contact">
+                                <label>State<span class="text-danger">*</span></label>
+                                <select class="form-control mySecond_display" id="stateId" required> </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6  form-group icon_form comments_form register_contact payment_select_wrapper">
+                                <label>Religion<span class="text-danger">*</span></label>
+                                <select id="religionId" class="form-control mySecond_display" asp-items="@(new SelectList(@ViewBag.Religion, "Id" ,"Name"))" required></select>
+                            </div>
+
+                            <div class="col-md-6 form-group icon_form comments_form register_contact ">
+                                <label class="mx-3">Profile Picture<span class="text-danger">Optional</span></label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="profilePicture">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group icon_form comments_form register_contact">
+                            <label>Department<span class="text-danger">*</span></label>
+                            <input id="department" class="form-control mySecond_display" type="text" placeholder="Department" required />
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary" id="schoolInfoBtn" disabled onclick="hideSchoolInfo()">Next</button>
+                        </div>
+                    </div>
+                 </div>
+                <div class="col-md-9" style="display: none;" id="emergencyContact">
+                    <div class="col-10 offset-1 p-3">
+                        <div class="form-group">
+                            <label>Home Address<span class="text-danger">*</span></label>
+                            <input class="form-control myLast_display" type="text" id="homeAddress" required placeholder="Place of residence">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6  form-group">
+                                <label>Emergency Contact<span class="text-danger">*</span></label>
+                                <input class="form-control myLast_display" type="text" id="emergencyContactNumber" required placeholder="0904*******">
+                            </div>
+
+                            <div class="col-md-6  form-group">
+                                <label>Emergency Contact Relationship<span class="text-danger">*</span></label>
+                                <input class="form-control myLast_display" type="text" id="contactRelationship" required placeholder="Brother">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6  form-group">
+                                <label>Emergency Contact Name<span class="text-danger">*</span></label>
+                                <input class="form-control myLast_display" type="text" id="contactName" required>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label class="form-label">Home Synagogue<span class="text-danger">*</span></label>
+                                <input id="homeSynagogue" class="form-control myLast_display" type="text" placeholder="Synagogue you attend at home" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>School Address<span class="text-danger">*</span></label>
+                            <input class="form-control myLast_display" type="text" id="schoolAddress" required placeholder="Where you stay in school">
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary" onclick="previousSchoolInfoBtn()">Previous</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary" id="emergencyContactBtn" onclick="CompleteRegistration()">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+     </div>
+</div>
+    <!-- /Page Content -->
+<!-- /Page Wrapper -->
+
+<script>
+     $(document).ready(function ()
+    {
+         $("#countryId").change(function ()
+       {
+           $("#stateId").empty();
+             debugger;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetStatesOfCountry", "Account")', //we are calling json method
+                dataType: 'json',
+                data:
+                {
+                    CountryId: $("#countryId").val()
+                },
+                success: function (getStates)
+                {
+                    debugger;
+                    $("#stateId").append('<option value="' +0 + '">--Select State --</option>');
+                    $.each(getStates, function (i, getState)
+                    {
+                        $("#stateId").append('<option value="' + getState.value + '">' + getState.text + '</option>');
+                    });
+                    $("#stateId").show();
+                },
+                error: function (ex)
+                {
+                errorAlert('Failed to retrieve States' + ex)
+                }
+            });
+           return false;
+       });
+     });
+
+    $('.mySecond_display').change(function () {
+        var NationalityId = $('#countryId').val();
+        var StateId = $('#stateId').val();
+        var ReligionId = $('#religionId').val();
+        var SchoolId = $('#schoolId').val();
+        var Department = $('#department').val();
+        if (NationalityId != "" && StateId != "" && ReligionId != "" && SchoolId != "" && Department != "") {
+            $('#schoolInfoBtn').prop("disabled", false);
+        }
+        else {
+            $('#schoolInfoBtn').prop("disabled", true);
+        }
+    });
+    $('.myLast_display').change(function () {
+        debugger;
+        var HomeAddress = $('#homeAddress').val();
+        var ContactPhoneNumber = $('#emergencyContactNumber').val();
+        var ContactRelationship = $('#contactRelationship').val();
+        var ContactName = $('#contactName').val();
+        var HomeSynagogue = $('#homeSynagogue').val();
+        var SchoolAddress = $('#schoolAddress').val();
+        if (HomeAddress != "" && ContactPhoneNumber != "" && ContactRelationship != "" && ContactName != "" && HomeSynagogue != "" && SchoolAddress != "") {
+            $('#emergencyContactBtn').prop("disabled", false);
+        }
+        else {
+            $('#emergencyContactBtn').prop("disabled", true);
+        }
+    });
+    function hideSchoolInfo(){
+        debugger;
+        var schoolInfo = document.getElementsByClassName("tickcheck1");;
+        var emergencyContact = document.getElementsByClassName("tickcheck2");
+        $('#emergencyContact').show();
+        $('#schoolInformation').hide();
+        ChangeColorToValid(schoolInfo);
+        ChangeColorToInValid(emergencyContact);
+    }
+    function previousSchoolInfoBtn() {
+        debugger;
+        var schoolInfo = document.getElementsByClassName("tickcheck1");;
+        var emergencyContact = document.getElementsByClassName("tickcheck2");
+        $('#emergencyContact').hide();
+        $('#schoolInformation').show();
+        ChangeColorToValid(schoolInfo);
+        ChangeColorToValid(emergencyContact);
+    }
+    function ChangeColorToValid(selectedClass) {
+        for (var i = 0; i < selectedClass.length; i++) {
+            selectedClass[i].style.color = "#0271D9";
+        }
+    }
+    function ChangeColorToInValid(selectedClass) {
+
+        for (var i = 0; i < selectedClass.length; i++) {
+            selectedClass[i].style.color = "gray";
+        }
+    }
+</script>
