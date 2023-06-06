@@ -25,10 +25,23 @@ namespace CovenantStudentsFellowship.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var events = _adminHelper.GetHomePageEvent()?.OrderByDescending(x => x.DateAdded).Take(7).ToList();
-            var blogs = _blogHelper.GetAllBlog()?.OrderByDescending(x => x.DateCreated).Take(5).ToList();
-            var topPictures = _adminHelper.GetAllPicture()?.OrderByDescending(x => x.DateAdded).Take(5).ToList();
-            var homePagePictures = _superAdminHelper.HomePagePictures();
+            var events = _adminHelper
+                .GetHomePageEvent()?
+                .OrderByDescending(x => x.DateAdded)
+                .Take(7)
+                .ToList();
+            var blogs = _blogHelper.
+                GetAllBlog()?
+                .OrderByDescending(x => x.DateCreated)
+                .Take(5)
+                .ToList();
+            var topPictures = _adminHelper
+                .GetAllPicture()?
+                .OrderByDescending(x => x.DateAdded)
+                .Take(5)
+                .ToList();
+            var homePagePictures = _superAdminHelper
+                .HomePagePictures();
             //var jewishActivity = _adminHelper.DisplayJewishActivities().Result;
             //var jewishActivityToBeDisplayedOnHomePage = jewishActivity.Items.ToList();
             var homePageViewModel = new HomePageViewModel()

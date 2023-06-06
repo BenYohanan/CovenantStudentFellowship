@@ -62,8 +62,10 @@ namespace Logic.Helpers
         public List<SchoolViewModel> AllRegisteredSchool()
         {
             var schoolViewModel = new List<SchoolViewModel>();
-            var allSchols = _context.School.Where(x => x.Id != Guid.Empty && x.Active && !x.Deleted)
-                .Include(x => x.State).ToList();
+            var allSchols = _context.School
+                .Where(x => x.Id != Guid.Empty && x.Active && !x.Deleted)
+                .Include(x => x.State)
+                .ToList();
             foreach (var school in allSchols)
             {
                 var schoolAdmin = GetSchoolAdminBySchoolId(school.Id);
@@ -113,10 +115,12 @@ namespace Logic.Helpers
         {
             if (schoolViewModel != null)
             {
-                var getUserByFullName = _userHelper.FindByName(schoolViewModel.AdminName);
+                var getUserByFullName = _userHelper
+                    .FindByName(schoolViewModel.AdminName);
                 if (getUserByFullName != null)
                 {
-                    var school = _context.School.Where(c => c.Id == schoolViewModel.Id && !c.Deleted && c.Active).FirstOrDefault();
+                    var school = _context.School
+                        .FirstOrDefault(c => c.Id == schoolViewModel.Id && !c.Deleted && c.Active);
                     if (school != null)
                     {
                         school.Id = schoolViewModel.Id;
@@ -142,7 +146,8 @@ namespace Logic.Helpers
             {
                 return false;
             }
-            var school = _context.School.Where(d => d.Id == id && d.Active && !d.Deleted).FirstOrDefault();
+            var school = _context.School
+                .FirstOrDefault(d => d.Id == id && d.Active && !d.Deleted);
             if (school != null)
             {
                 school.Deleted = true;
@@ -155,7 +160,9 @@ namespace Logic.Helpers
         public async Task<List<ApplicationUserViewModel>> SystemAdmins()
         {
             var users = new List<ApplicationUserViewModel>();
-            var systemAdmin = await _userManager.GetUsersInRoleAsync("SchoolAdmin").ConfigureAwait(false);
+            var systemAdmin = await _userManager
+                .GetUsersInRoleAsync("SchoolAdmin")
+                .ConfigureAwait(false);
             var admins = systemAdmin?.Select(x => new ApplicationUserViewModel
             {
                 Id = x.Id,
@@ -174,20 +181,26 @@ namespace Logic.Helpers
         public PictureViewModel HomePagePictures()
         {
             var pictures = new PictureViewModel();
-            var homepagePicture = _context.HomePageImages.Where(u => u.Id != 0 && u.ImageUrl != null && u.Active && !u.Deleted && u.HomePageImageId != null).Include(u => u.HomePagePicture).ToList();
+            var homepagePicture = _context.HomePageImages
+                .Where(u => u.Id != 0 && u.ImageUrl != null && u.Active && !u.Deleted && u.HomePageImageId != null)
+                .Include(u => u.HomePagePicture)
+                .ToList();
             if (homepagePicture != null && homepagePicture.Count > 0)
             {
-                var aboutPictureUrl = homepagePicture.Where(u => u.Id != 0 && u.ImageUrl != null && u.HomePagePicture.Name.ToLower().Contains("about")).FirstOrDefault();
+                var aboutPictureUrl = homepagePicture
+                    .FirstOrDefault(u => u.Id != 0 && u.ImageUrl != null && u.HomePagePicture.Name.ToLower().Contains("about"));
                 if (aboutPictureUrl != null)
                 {
                     pictures.AboutUrl = aboutPictureUrl.ImageUrl;
                 }
-                var mainPictureUrl = homepagePicture.Where(u => u.Id != 0 && u.ImageUrl != null && u.HomePagePicture.Name.ToLower().Contains("main")).FirstOrDefault();
+                var mainPictureUrl = homepagePicture
+                    .FirstOrDefault(u => u.Id != 0 && u.ImageUrl != null && u.HomePagePicture.Name.ToLower().Contains("main"));
                 if (mainPictureUrl != null)
                 {
                     pictures.MainUrl = mainPictureUrl.ImageUrl;
                 }
-                var eventPictureUrl = homepagePicture.Where(u => u.Id != 0 && u.ImageUrl != null && u.HomePagePicture.Name.ToLower().Contains("event")).FirstOrDefault();
+                var eventPictureUrl = homepagePicture
+                    .FirstOrDefault(u => u.Id != 0 && u.ImageUrl != null && u.HomePagePicture.Name.ToLower().Contains("event"));
                 if (eventPictureUrl != null)
                 {
                     pictures.EventUrl = eventPictureUrl.ImageUrl;
@@ -199,8 +212,10 @@ namespace Logic.Helpers
         public List<HomePageImageViewModel> GetHomePagePictures()
         {
             var homepagePictures = new List<HomePageImageViewModel>();
-            var allPictures = _context.HomePageImages.Where(x => x.Id != 0 && x.Active && !x.Deleted && x.HomePageImageId != null)
-                .Include(x => x.HomePagePicture).Include(x => x.School)
+			homepagePictures = _context.HomePageImages
+                .Where(x => x.Id != 0 && x.Active && !x.Deleted && x.HomePageImageId != null)
+                .Include(x => x.HomePagePicture)
+                .Include(x => x.School)
                 .Select(x => new HomePageImageViewModel
                 {
                     Id = x.Id,
@@ -210,10 +225,6 @@ namespace Logic.Helpers
                     DateAdded = x.DateAdded.ToString("D"),
                     SchoolName = x.School.SchoolCodeName,
                 }).ToList();
-            if (allPictures != null && allPictures.Count > 0)
-            {
-                return allPictures;
-            }
             return homepagePictures;
         }
         public string AddHomePagePicture(int pictureType, string base64)
@@ -236,7 +247,10 @@ namespace Logic.Helpers
         {
             if (homePagePictureViewModel != null)
             {
-                var picture = _context.HomePageImages.Where(c => c.Id == homePagePictureViewModel.Id && !c.Deleted && c.Active && c.ImageUrl != null && c.HomePageImageId != null).Include(c => c.HomePagePicture).FirstOrDefault();
+                var picture = _context.HomePageImages
+                    .Where(c => c.Id == homePagePictureViewModel.Id && !c.Deleted && c.Active && c.ImageUrl != null && c.HomePageImageId != null)
+                    .Include(c => c.HomePagePicture)
+                    .FirstOrDefault();
                 if (picture != null)
                 {
                     picture.ImageUrl = imageUrl;
@@ -253,7 +267,8 @@ namespace Logic.Helpers
             {
                 return false;
             }
-            var homepagePicture = _context.HomePageImages.Where(d => d.Id == id && d.Active && !d.Deleted).FirstOrDefault();
+            var homepagePicture = _context.HomePageImages
+                .FirstOrDefault(d => d.Id == id && d.Active && !d.Deleted);
             if (homepagePicture != null)
             {
                 homepagePicture.Deleted = true;
@@ -266,13 +281,15 @@ namespace Logic.Helpers
         public List<RoleViewModel> GetRoleList()
         {
             var roleViewModel = new List<RoleViewModel>();
-            var allroles = _context.UserRoles.Where(x => x.UserId != null && x.RoleId != null).ToList();
+            var allroles = _context.UserRoles
+                .Where(x => x.UserId != null && x.RoleId != null)
+                .ToList();
             if (allroles.Count > 0)
             {
                 foreach (var role in allroles)
                 {
                     var user =_userHelper.FindUserById(role.UserId);
-                    var userRole = _context.Roles.Where(r => r.Id == role.RoleId).FirstOrDefault();
+                    var userRole = _context.Roles.FirstOrDefault(r => r.Id == role.RoleId);
                     if (user != null && userRole != null)
                     {
                         var roleModel = new RoleViewModel
@@ -295,7 +312,8 @@ namespace Logic.Helpers
         {
             if (schoolId != Guid.Empty)
             {
-                var admin = _context.ApplicationUser.Where(x => x.Id != null && x.SchoolId == schoolId && !x.Deactivated && x.UserName != null && x.IsSchoolAdmin).FirstOrDefault();
+                var admin = _context.ApplicationUser
+                    .FirstOrDefault(x => x.Id != null && x.SchoolId == schoolId && !x.Deactivated && x.UserName != null && x.IsSchoolAdmin);
                 if (admin != null)
                 {
                     return admin;
